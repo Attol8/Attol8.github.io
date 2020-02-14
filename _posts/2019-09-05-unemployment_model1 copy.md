@@ -769,26 +769,6 @@ Now that we have our models, we will procede to interpret them; given it's manif
 ```python
 pip install shap
 ```
-
-    Collecting shap
-    [?25l  Downloading https://files.pythonhosted.org/packages/b8/db/58740847c0df6b346a999e3c375936436f4155354f6b644aa6e203bb40f3/shap-0.34.0.tar.gz (264kB)
-    [K     |████████████████████████████████| 266kB 4.8MB/s 
-    [?25hRequirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from shap) (1.17.5)
-    Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (from shap) (1.4.1)
-    Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (from shap) (0.22.1)
-    Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (from shap) (0.25.3)
-    Requirement already satisfied: tqdm>4.25.0 in /usr/local/lib/python3.6/dist-packages (from shap) (4.28.1)
-    Requirement already satisfied: joblib>=0.11 in /usr/local/lib/python3.6/dist-packages (from scikit-learn->shap) (0.14.1)
-    Requirement already satisfied: python-dateutil>=2.6.1 in /usr/local/lib/python3.6/dist-packages (from pandas->shap) (2.6.1)
-    Requirement already satisfied: pytz>=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas->shap) (2018.9)
-    Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil>=2.6.1->pandas->shap) (1.12.0)
-    Building wheels for collected packages: shap
-      Building wheel for shap (setup.py) ... [?25l[?25hdone
-      Created wheel for shap: filename=shap-0.34.0-cp36-cp36m-linux_x86_64.whl size=383178 sha256=c0407529fbde6e21320b634124a60e0df87601e9239910ca54079913aeaedbd0
-      Stored in directory: /root/.cache/pip/wheels/28/7e/28/57bc9fcb77579b0df6561298648249370648c0b91dfe42c8ec
-    Successfully built shap
-    Installing collected packages: shap
-    Successfully installed shap-0.34.0
     
 
 
