@@ -1,3 +1,12 @@
+---
+layout: post
+title: Predict Unemployment
+subtitle: A Machine Learning approach
+gh-repo: daattali/beautiful-jekyll
+gh-badge: [star, fork, follow]
+tags: [test]
+comments: true
+---
 # Predict Unemployment at the individual level
 
 ## Introduction
