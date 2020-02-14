@@ -1,14 +1,12 @@
 ---
 layout: post
-title: Predict Unemployment
+title: Predict Unemployment at the individual level
 subtitle: A Machine Learning approach
-gh-repo: daattali/beautiful-jekyll
+gh-repo: Attol8/Italy_unemployment
 gh-badge: [star, fork, follow]
 tags: [test]
 comments: true
 ---
-# Predict Unemployment at the individual level
-
 ## Introduction
 
 ### Italian Unemployment
@@ -27,7 +25,7 @@ The main data source for this project is the 'Italian Labour Force Survey', the 
 
 
 
-```
+```python
 #import the needed modules
 import pandas as pd
 from pathlib import Path
@@ -46,7 +44,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import cross_val_score
 ```
 
-```
+```python
 #we define the path in which our dataset is contained
 data_path = Path('data')
 ```
@@ -54,7 +52,7 @@ data_path = Path('data')
 The Labour Surveys are conducted each quarter. I have downloaded data from July 2017 to October 2018 (the last available survey) in order to have a large number of individuals surveyed. Weirdly, the format of the Surveys is .sav, we therefore use pyreadstat in order to read the data. We also concatenate the frames to have one, unique dataset.
 
 
-```
+```python
 df1, meta1 = pyreadstat.read_sav(os.path.join(data_path,'Survey_2018Oct.sav' ))
 df2, meta2 = pyreadstat.read_sav(os.path.join(data_path,'Survey_2018Jul.sav' ))
 df3, meta3 = pyreadstat.read_sav(os.path.join(data_path,'Survey_2018Apr.sav' ))
@@ -68,7 +66,7 @@ df = pd.concat(frames, sort = False)
 by calling df.shape we can see that our dataset records information of 560,961 individuals.
 
 
-```
+```python
 df.shape
 ```
 
@@ -81,20 +79,20 @@ df.shape
 The features are encoded with a title that reflects the type of question being posed during the questionnaire. To understand the dataset better, we extracted the variables' descriptions and we can create a dictionary 'dict[variable] = description'. Unluckily, the variables' descriptions are in Italian. 
 
 
-```
+```python
 #load the file containing the description of the variables
 variables_df = pd.read_csv(os.path.join(data_path, 'Survey_variable-description.csv'), encoding='latin-1', sep=";")
 ```
 
 
-```
+```python
 variable_dict = {}
 for v, d in zip(variables_df['Variable'], variables_df['Description']):
   variable_dict[v] = d
 ```
 
 
-```
+```python
 def variable_descr(variable):
   try:
     return variable_dict[variable]
@@ -103,7 +101,7 @@ def variable_descr(variable):
 ```
 
 
-```
+```python
 #print an example 
 variable_descr('EDULEV')
 ```
@@ -120,20 +118,20 @@ variable_descr('EDULEV')
 let's count the number of unique values for each variable.
 
 
-```
+```python
 #make a copy of the dataset
 data = df.copy()
 ```
 
 
-```
+```python
 #set seaborn style and palette
 sns.set_style("whitegrid")
 sns.set_palette("husl")
 ```
 
 
-```
+```python
 plt.figure(figsize=(35, 10))
 data_features = [col for col in data.columns[6:] if col not in ['MFRFAM', 'MFRIND']]
 uniques = [len(data[col].unique()) for col in data_features]
@@ -154,7 +152,7 @@ for p, uniq in zip(ax.patches, uniques):
 The dataset also contains a variable with the Employment condition of the surveyed, divided into ten sections. The categories are encoded with numbers, we display a dataframe to explain what these categories mean. 
 
 
-```
+```python
 plt.rcParams.update({'font.size': 14})
 total = len(data)
 plt.figure(figsize=(15,10))
@@ -176,7 +174,7 @@ plt.show()
 
 
 
-```
+```python
 COND10_df = pd.read_csv(os.path.join(data_path, 'COND10-description.csv'), sep= ';')
 ```
 
@@ -265,14 +263,14 @@ COND10_df = pd.read_csv(os.path.join(data_path, 'COND10-description.csv'), sep= 
 Ctaegories 9 and 10 represents surveyed people that are unemployed but are either too young or too old to work (-15 years old or +64 years old), we are not intereseted in predicting for these categories
 
 
-```
+```python
 df = df[df.COND10 != 9.0]
 df = df[df.COND10 != 10.0]
 data = df.copy()
 ```
 
 
-```
+```python
 df.shape
 ```
 
@@ -288,7 +286,7 @@ df.shape
 We want to predict if an individual is either employed or unemployed, the feature 'COND3' perfectly encodes this concept. It divides people into three categories: Employed (1), Active(2) or Unemployed(3)
 
 
-```
+```python
 plt.rcParams.update({'font.size': 14})
 total = len(data)
 plt.figure(figsize=(15,10))
@@ -312,13 +310,13 @@ plt.show()
 The label class 2 (actively looking for a job) is really unbalanced (only 3% of the observations), for convenience we will turn it into class label 3, unemployed. Again, we are predicting for employment/unemployment only.
 
 
-```
+```python
 df.loc[df['COND3'] == int(2), 'COND3'] = int(3)
 data = df.copy()
 ```
 
 
-```
+```python
 #plot the same graph, after the transformation
 plt.rcParams.update({'font.size': 14})
 total = len(data)
@@ -345,7 +343,7 @@ plt.show()
 We are interested in observing how  many people individuals were sampled from each geographical area. Also, we want to understand howv Employed and unemployed people are distributed geographically. The variable 'RIP3' divides people into 3 geographical groups (North - 1, Center - 2, South - 3)
 
 
-```
+```python
 total = len(data)
 plt.figure(figsize=(15,10))
 ax = sns.countplot(x="RIP3", data=data)
@@ -369,7 +367,7 @@ Let's now mix it up with employment features. We immediately observe that in the
 
 
 
-```
+```python
 total = len(data)
 plt.figure(figsize=(15,10))
 ax = sns.countplot(x="RIP3", data=data, hue="COND3")
@@ -385,12 +383,12 @@ plt.show()
 We repeat the same process, this time with the variable 'RIP5'. The variable 'RIP5' divides people into 5 geographical groups: North West - 1, North East - 2, Center - 3, South - 4, Islands - 5
 
 
-```
+```python
 sns.set_palette("cubehelix")
 ```
 
 
-```
+```python
 total = len(data)
 plt.figure(figsize=(15,10))
 ax = sns.countplot(x="RIP5", data=data)
@@ -411,7 +409,7 @@ plt.show()
 
 
 
-```
+```python
 total = len(data)
 plt.figure(figsize=(15,10))
 ax = sns.countplot(x="RIP5", data=data, hue="COND3")
@@ -428,7 +426,7 @@ plt.show()
 Let's now plot the distribution of all the other interesting features
 
 
-```
+```python
 plt.rcParams.update({'font.size': 10})
 df_filter = data[data.columns[8:]]
 df_filter.hist(figsize=(16, 20), bins=50, xlabelsize=8, ylabelsize=8);
@@ -443,13 +441,13 @@ df_filter.hist(figsize=(16, 20), bins=50, xlabelsize=8, ylabelsize=8);
 After perfrorming a small bit of feature engineering on the dataset that I am not going to show in this blog post (for length reasons), let's actually train a model. 
 
 
-```
+```python
 #let's load the feature engineered dataset
 df = pd.read_csv(data_path/'Survey_f.csv')
 ```
 
 
-```
+```python
 #create train and test df
 msk = np.random.rand(len(df)) < 0.9
 train_df = df[msk]
@@ -457,7 +455,7 @@ test_df = df[~msk]
 ```
 
 
-```
+```python
 len(train_df), len(test_df)
 ```
 
@@ -471,7 +469,7 @@ len(train_df), len(test_df)
 It is extremely useful to identify and assign categorical and numerical variables. We want to predict for Unemployment/Employment, the dependent variable (the one that that we want our model to predict for) is therefore 'COND3'. We plotted this variable in the previous section of the post. 
 
 
-```
+```python
 #assign variables to total, continuos, catgorical and dependent categories
 tot_vars = list(train_df.columns)
 cont_vars = ['Population_T', 'Population_F', 'Population_M']
@@ -482,7 +480,7 @@ cat_vars = list(set(tot_vars) - set(cont_vars) - set(dep_var))
 The dataset contains a lot of NA values, we want to identify the columns with the most missing values. The code below does exactly so. 
 
 
-```
+```python
 na_series = train_df.isna().sum()
 na_df = pd.DataFrame({"NA" : na_series})
 na_df.loc[na_df['NA'] != 0].sort_values(by = ['NA'], ascending = False)[:10]
@@ -492,7 +490,7 @@ na_df.loc[na_df['NA'] != 0].sort_values(by = ['NA'], ascending = False)[:10]
 From fast.ai forum, this is the best practice for NA values "In general you can do this. For the case of a numeric variable you can add a new column X1_is_NA which is going to be 1 if the original X1 column was NA and 0 otherwise. Then you substitute the NA value in the original column with the mean/ median. For a categorical variable you can leave NA as a new category."
 
 
-```
+```python
 features = train_df.isnull().any()
 features_na = features[features==True]
 features_na = list(features_na.index)
@@ -503,14 +501,14 @@ for g in features_na:
 being categorical variables, we leave NA as a new category (in this case NA = 9999)
 
 
-```
+```python
 train_df.fillna(9999, inplace = True)
 ```
 
 The Dataset is now ready for training and testing. However, in order to pass the dataset to sklearn we still need to split our training test in training and validation sets, we leave our test set untouched. The function `train_test_split()` from sklearn makes this passage super easy.
 
 
-```
+```python
 train_df.replace({'COND3': {1: 0}}, inplace = True)
 train_df.replace({'COND3': {3: 1}}, inplace = True)
 ```
@@ -524,7 +522,7 @@ train_df.replace({'COND3': {3: 1}}, inplace = True)
     
 
 
-```
+```python
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(train_df[cat_vars+cont_vars], train_df[dep_var], test_size=0.33)
 ```
@@ -542,7 +540,7 @@ The Sklearn library makes it super easy to fit these models with our dataset. We
 
 
 
-```
+```python
 len(X_train), len(X_test), len(y_train), len(y_test)
 ```
 
@@ -555,7 +553,7 @@ len(X_train), len(X_test), len(y_train), len(y_test)
 ### XGBoost
 
 
-```
+```python
 # fit model to training data
 XGB = XGBClassifier()
 XGB.fit(X_train, y_train)
@@ -594,7 +592,7 @@ print("Accuracy: %.2f%%" % (XGB_acc * 100.0))
 ### LIGHTGBM
 
 
-```
+```python
 pip install lightgbm
 ```
 
@@ -606,12 +604,12 @@ pip install lightgbm
     
 
 
-```
+```python
 import lightgbm
 ```
 
 
-```
+```python
 # fit model to training data
 lgbm = lightgbm.LGBMClassifier()
 lgbm.fit(X_train, y_train)
@@ -650,7 +648,7 @@ print("Accuracy: %.2f%%" % (lgbm_acc * 100.0))
 ### Random Forest Classifier
 
 
-```
+```python
 from sklearn.ensemble import RandomForestClassifier
 rfc = RandomForestClassifier(n_estimators=100)
 rfc.fit(X_train, y_train)
@@ -689,7 +687,7 @@ print("Accuracy: %.2f%%" % (rfc_acc * 100.0))
 let's compare the results between different models
 
 
-```
+```python
 results = pd.DataFrame({
     'Model': [ 'XGBoost','lgbm', 'Random Forest'],
     'accuracy': [XGB_acc, lgbm_acc, rfc_acc],
@@ -772,7 +770,7 @@ Now that we have our models, we will procede to interpret them; given it's manif
 [This Medium Article ](https://towardsdatascience.com/explain-any-models-with-the-shap-values-use-the-kernelexplainer-79de9464897a) from Dataman explains the concept of SHAP and Shapley values beautifully
 
 
-```
+```python
 pip install shap
 ```
 
@@ -798,12 +796,12 @@ pip install shap
     
 
 
-```
+```python
 import shap
 ```
 
 
-```
+```python
 shap.initjs()
 # explain the model's predictions using SHAP values
 # (same syntax works for LightGBM, CatBoost, and scikit-learn models)
@@ -870,7 +868,7 @@ The force_plot() function is really interesting, let's explain it!
 
 
 
-```
+```python
 base_value = lgbm.predict(S, raw_score=True)
 base_value[10].round(2)
 ```
@@ -885,7 +883,7 @@ base_value[10].round(2)
 **The base value:** The original paper explains that the base value E(y_pred) is “the value that would be predicted if we did not know any features for the current output.” In other words, it is the mean prediction, or mean(y_pred) of the S table. 
 
 
-```
+```python
 y_pred = lgbm.predict(S, raw_score=True)
 y_pred.mean().round(3)
 ```
@@ -902,7 +900,7 @@ y_pred.mean().round(3)
 Now let's imagine that we can transpose each row of the S table after passing it into `force_plot()`. This is exactly what the graph below plots. 
 
 
-```
+```python
 shap.initjs()
 shap.force_plot(explainer.expected_value, shap_values, S)
 ```
@@ -954,7 +952,7 @@ function r(t,e){if(!o.canUseDOM||e&&!("addEventListener"in document))return!1;va
 If we hover on the graph we can see the individual features that pushed the prediction higher/lower
 
 
-```
+```python
 shap.initjs()
 shap.summary_plot(shap_values, S)
 ```
@@ -989,7 +987,7 @@ function r(t,e){if(!o.canUseDOM||e&&!("addEventListener"in document))return!1;va
 Let's finally plot the overall feature importance (for table S)
 
 
-```
+```python
 shap.summary_plot(shap_values, S, plot_type="bar")
 ```
 
