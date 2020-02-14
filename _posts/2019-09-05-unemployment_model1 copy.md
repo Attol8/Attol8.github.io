@@ -19,8 +19,6 @@ The main data source for this project is the 'Italian Labour Force Survey', the 
 
 ## Exploratory Data Analysis
 
-
-
 ```python
 #import the needed modules
 import pandas as pd
@@ -548,7 +546,6 @@ len(X_train), len(X_test), len(y_train), len(y_test)
 
 ### XGBoost
 
-
 ```python
 # fit model to training data
 XGB = XGBClassifier()
@@ -586,7 +583,6 @@ print("Accuracy: %.2f%%" % (XGB_acc * 100.0))
     
 
 ### LIGHTGBM
-
 
 ```python
 pip install lightgbm
@@ -642,7 +638,6 @@ print("Accuracy: %.2f%%" % (lgbm_acc * 100.0))
     
 
 ### Random Forest Classifier
-
 
 ```python
 from sklearn.ensemble import RandomForestClassifier
