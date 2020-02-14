@@ -4,7 +4,7 @@ title: Predict Unemployment at the individual level
 subtitle: A Machine Learning approach
 gh-repo: Attol8/Italy_unemployment
 gh-badge: [star, fork, follow]
-tags: [test]
+tags: [machine learning, unemployment, data analysis]
 comments: true
 ---
 Unemployment has been a long-standing issue for Italy. According to [Eurostat](https://ec.europa.eu/eurostat/statistics-explained/index.php/Unemployment_statistics), in December 2019 Italy has one of the highest unemployment rates in the Euro Area (9.8%), preceded only by Spain (13.7%) and Greece (16.6%). The Italian Youth Unemployment rate (people aged between 15-24) in 2018 was a staggering 32.2%, denoting a wide structural problem in the Italian economy. Many studies has been published on the topic, and it is still one of the hottest issues in the country. Every political party argues that Unemployment is a pivotal point in their political agenda and different governments tried to propose and implement their solutions. 
