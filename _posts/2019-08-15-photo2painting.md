@@ -15,4 +15,4 @@ The App is a PyTorch implementation of the notorious CycleGAN paper by Zhu et al
 
 The web application was built with Flask and deployed on a DigitalOcean droplet. The project wants to demonstrate its users how Generative Adversarial Networks works in production and allowed me to dive deep into the theory of GANs.
 
-👉👉 [LINK TO THE APP](https://www.google.com)
+👉👉 [LINK TO THE APP](https://photo2painting.tech/)
