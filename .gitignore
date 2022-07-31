@@ -2,6 +2,7 @@
 _site
 .sass-cache
 .vagrant
+_notebooks
 
 # general
 .DS_Store
