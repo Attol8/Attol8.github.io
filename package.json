@@ -1,0 +1,17 @@
+{
+  "name": "simple-blog",
+  "version": "1.0.0",
+  "description": "A simple static blog generator",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "serve": "python3 -m http.server 8000"
+  },
+  "dependencies": {
+    "marked": "^5.1.1"
+  },
+  "devDependencies": {},
+  "keywords": ["blog", "static", "markdown"],
+  "author": "",
+  "license": "MIT"
+} 

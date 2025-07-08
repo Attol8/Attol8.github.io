@@ -1,0 +1,10 @@
+[
+    {
+        "title": "Welcome to My Blog",
+        "date": "2024-01-15",
+        "type": "markdown",
+        "filename": "welcome.md",
+        "excerpt": "Welcome to my new blog! This is where I'll share my thoughts on data science, programming, and technology.",
+        "tags": ["welcome", "introduction"]
+    }
+] 
